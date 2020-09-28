@@ -40,8 +40,6 @@ def format_time_hhmm_ampm(timestamp):  # formatted like: 06:30 AM
 
 
 # All stock analysis functions
-
-
 def get_over_under_short_long(short_value, long_value):  # Returns OVER, UNDER, EQUALS or N/A when comparing short & long MA's
     if long_value == 0 or short_value == 0:  # N/A is used for when there is no data yet
         return c.NA
