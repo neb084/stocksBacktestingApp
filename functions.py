@@ -1,6 +1,7 @@
 # This class file is to hold all the basic functions needed for the Backtesting App
 import datetime as dt
 import constants as c
+import requests
 
 # All date & time related functions
 # NOTES: timestamps are designated for the start of each candle
@@ -51,3 +52,58 @@ def get_over_under_short_long(short_value, long_value):  # Returns OVER, UNDER, 
         return c.EQUALS
 
 
+def sma(length, values_for_sma): # return list with SMA values based upon
+
+    """
+    Return list with SMA values based upon length and value submitted (usually the CLOSE of the candle, but can be OPEN, HIGH, LOW or VOLUME)
+    :param length:  Lookback length for the SMA. Must be >=2
+    :type length: Integer
+    :param values_for_sma: List of Float/Integer values being coverted into SMA data. Usually the CLOSES of the candle,
+    but can send value desired.
+    :type values_for_sma: List of Floats/Integer
+    :return: Return list with SMA values based upon length and value submitted (usually the CLOSE of the candle)
+    :rtype: List of Floats/Integers
+    """
+    sma_list = []  # initialize sma list
+
+    # add 0 to the list for the first areas where SMA can't be calculated
+    for i in range(length-1):
+        sma_list.append(0)
+
+    # calculate SMA and store in list
+    for i in range(length-1, len(values_for_sma)):
+        sma_sum = 0  # for calculating SMA
+        for j in range(i-(length-1), i+1):
+            sma_sum = sma_sum + values_for_sma[j]
+        sma_list.append(sma_sum / length)
+
+    return sma_list
+
+
+# API functions
+
+"""
+NEED TO HAVE A CALL TO THIS FUNCTION!!! with parameters
+"""
+def get_price_history_from_API(**kwargs):
+    # Method/function to call to website and upload parameters and return results
+    # **kwargs means it can handle many arguments that are defined by a keyword in which the method can handle
+
+    key = 'HGDUKYGX3ZYVKTSJZTEEVEPUANXS2AU0'
+
+    # URL address for API, pulling 'symbol' key from kwargs
+    url = 'https://api.tdameritrade.com/v1/marketdata/{}/pricehistory'.format(kwargs.get('symbol'))
+
+    # Initialize dictionary
+    user_params = {}
+    # Add 'apikey' to "user_params" dictionary
+    user_params.update({'apikey': key})
+
+    # for every argument ("arg") in kwargs, add it to the "user_params" dictionary
+    for arg in kwargs:
+        user_params.update({arg: kwargs.get(arg)})
+
+    # Return the results by sending "url" and the supplied "params" (params is a keyword on the API),
+    # json is the format it is being received in
+    data_from_API = requests.get(url, params=user_params).json()  # get dictionary from API
+    return data_from_API['candles']  # return only the candles

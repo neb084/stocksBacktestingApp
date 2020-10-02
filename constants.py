@@ -12,7 +12,7 @@ EQUALS = "EQUALS"
 NA = "N/A"
 
 # Analysis_Type codes
-ANALYSIS_2MA = "2 Moving Averages Analysis"
+ANALYSIS_MA2 = "2 Moving Averages Analysis"
 
 # Buy & Sell signal coding
 BUY_OPEN_CURRENT_DAY = "BUY on the OPEN of the current day"
@@ -23,3 +23,15 @@ SELL_OPEN_CURRENT_DAY = "SELL on the OPEN of the current day"
 SELL_CLOSE_CURRENT_DAY = "SELL on the CLOSE of the current day"
 SELL_OPEN_NEXT_DAY = "SELL on the OPEN of the next day"
 SELL_CLOSE_NEXT_DAY = "SELL on the CLOSE of the next day"
+BUY = "BUY"
+SELL = "SELL"
+
+
+# Moving Average constants
+SMA = "Simple Moving Average"
+EMA = "Exponetial Moving Average"
+OPEN = "OPEN"
+CLOSE = "CLOSE"
+HIGH = "HIGH"
+LOW = "LOW"
+VOLUME = "VOLUME"
